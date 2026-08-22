@@ -1,0 +1,21 @@
+:root {
+  font-family: Aptos, 'Trebuchet MS', sans-serif;
+  color: #f8f8f2;
+  background: #0b1c2c;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --ink: #f8f8f2;
+  --paper: #1e2f3f;
+  --paper-deep: #0b1c2c;
+  --line: rgba(212, 162, 76, .28);
+  --red: #d4a24c;
+  --teal: #72c7bb;
+  --brass: #e1b45f;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input { font: inherit; }
+button { color: inherit; }
+button:focus-visible, input:focus-visible, audio:focus-visible { outline: 3px solid #e1b45f; outline-offset: 3px; }
+#root { min-height: 100vh; }
