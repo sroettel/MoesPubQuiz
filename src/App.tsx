@@ -1,23 +1,24 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import {
   ArrowLeft,
-  AudioLines,
+  BadgeQuestionMark,
+  BellRing,
   ChevronRight,
+  Compass,
   Database,
   Eye,
-  Image,
+  Flag,
   Lightbulb,
-  ListChecks,
   LoaderCircle,
   Minus,
   Play,
   Plus,
   RotateCcw,
-  ScanSearch,
-  SmilePlus,
+  Shell,
+  ShipWheel,
   Sparkles,
+  Telescope,
   Trophy,
-  UserRoundSearch,
   Wifi,
   WifiOff,
   type LucideIcon,
@@ -31,12 +32,12 @@ type Screen = 'library' | 'setup' | 'game' | 'results'
 type QuestionSource = 'pool' | 'ai'
 
 const GAME_ICONS: Record<GameType, LucideIcon> = {
-  picture: Image,
-  'who-am-i': UserRoundSearch,
-  themed: ListChecks,
-  'lie-detector': ScanSearch,
-  sound: AudioLines,
-  emoji: SmilePlus,
+  picture: Flag,
+  'who-am-i': Telescope,
+  themed: Compass,
+  'lie-detector': BadgeQuestionMark,
+  sound: BellRing,
+  emoji: Shell,
 }
 
 const EMPTY_COUNTS: Record<GameType, number> = {
@@ -174,7 +175,10 @@ function App() {
     <main className="app-shell">
       <header className="topbar">
         <button className="brand" type="button" onClick={() => setScreen('library')}>
-          <span className="brand-mark">MP</span>
+          <span className="brand-mark" aria-hidden="true">
+            <ShipWheel className="brand-wheel" />
+            <span className="brand-question">?</span>
+          </span>
           <span><strong>Moe`s</strong><small>PubQuiz</small></span>
         </button>
         <div className={`connection ${isOnline ? '' : 'offline'}`}>
