@@ -1,51 +1,96 @@
-# React + TypeScript + Vite
+# Moe`s PubQuiz
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Moe`s PubQuiz ist ein deutschsprachiger, für iPad und Desktop optimierter PubQuiz-Spielleiter. Die App kombiniert einen lokalen Fragenpool mit optional live über OpenRouter generierten Fragen, Teamwertung und einem installierbaren Offline-Modus.
 
-Currently, two official plugins are available:
+## Spielarten
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Spielart | Inhalt |
+| --- | --- |
+| Picture Quiz | Länderflaggen erkennen |
+| Who Am I? | Personen anhand zunehmend konkreter Hinweise erraten |
+| Themed Rounds | Fragen zu einem gemeinsamen Thema |
+| Lie Detector | Unter drei Aussagen die erfundene finden |
+| Guess the Sound | Lokal bereitgestellte Geräusche erkennen |
+| Emoji Quiz | Filme und Serien anhand von Emojis erraten |
 
-## React Compiler
+Der lokale Startpool enthält 600 Aufgaben, jeweils 100 pro Spielart. Gespielte Fragen werden in einer lokalen Historie erfasst, damit selten gespielte Aufgaben bevorzugt ausgewählt werden.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## KI live mit OpenRouter
 
-## Expanding the ESLint configuration
+Im Setup jeder Spielart kann zwischen dem lokalen Standardpool und **KI live** gewählt werden. Die App unterstützt zwei Modellmodi:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Kostenlos:** `z-ai/glm-5.2:free` mit `openrouter/free` als Fallback
+- **Bezahlt:** `openai/gpt-5.4-mini`
 
-```js
-export default defineConfig([
-  # Moe`s PubQuiz
+Für KI live wird ein eigener OpenRouter API-Key im Setup eingegeben. Der Key bleibt nur im aktuellen React-Zustand des Browsers und wird weder in IndexedDB noch im Repository gespeichert.
 
-  Ein lokaler PubQuiz-Spielleiter mit sechs Spielarten, Teamwertung und optional live generierten Fragen über OpenRouter.
+Für das bezahlte Modell benötigt das OpenRouter-Konto Guthaben. Zusätzlich muss das Kreditlimit des verwendeten API-Keys die Anfrage erlauben. Guthaben kann unter [openrouter.ai/credits](https://openrouter.ai/credits) verwaltet werden.
 
-  ## Funktionen
+### Mediengebundene KI-Fragen
 
-  - Picture Quiz mit Länderflaggen
-  - Who Am I, Themed Rounds, Lie Detector, Sound- und Emoji-Quiz
-  - Lokaler Fragenpool mit Offline-Unterstützung als PWA
-  - KI live über OpenRouter
-    - Kostenlos: GLM mit OpenRouter-Free-Fallback
-    - Bezahlt: `openai/gpt-5.4-mini`
+Picture- und Sound-Fragen verwenden ausschließlich geprüfte Assets aus dem lokalen Medienpool. Die KI darf passende Assets auswählen, kann aber keine neuen Bilder oder Audiodateien erzeugen.
 
-  Der OpenRouter API-Key wird nur im aktuellen Browserzustand gehalten und nicht in der Datenbank gespeichert. Für das bezahlte Modell benötigt das OpenRouter-Konto Guthaben.
+Der aktuelle Picture-Pool enthält nur Länderflaggen. Ein Schwerpunkt wie "Politiker" erzeugt daher keine Personenbilder; Frage, Antwort und Bild bleiben immer an dasselbe geprüfte Flaggen-Asset gebunden.
 
-  ## Entwicklung
+## Offline und PWA
 
-  Voraussetzung: Node.js 24 oder neuer.
+Die App ist als Progressive Web App konfiguriert und kann auf unterstützten Geräten installiert werden.
 
-  ```bash
-  npm install
-  npm run dev
-  ```
+- App-Bundle, Hintergrundbild und lokale Audiodateien werden vorab gecacht.
+- Flaggen von Flagcdn werden nach dem ersten Laden im Runtime-Cache gespeichert.
+- Standardpool, Spielhistorie und Auswahlstatistik liegen lokal in IndexedDB via Dexie.
+- KI live benötigt weiterhin eine Internetverbindung.
 
-  ## Qualitätssicherung
+## Technik
 
-  ```bash
-  npm test
-  npm run lint
-  npm run build
-  ```
-import reactX from 'eslint-plugin-react-x'
+- React 19 und TypeScript 6
+- Vite 8
+- Dexie / IndexedDB
+- Zod zur Validierung von KI-Antworten
+- Vitest und ESLint
+- `vite-plugin-pwa` / Workbox
+- Lucide React Icons
+
+## Lokale Entwicklung
+
+Voraussetzung: Node.js `^20.19.0` oder `>=22.12.0` und npm.
+
+```bash
+git clone https://github.com/sroettel/MoesPubQuiz.git
+cd MoesPubQuiz
+npm install
+npm run dev
+```
+
+Vite zeigt anschließend die lokale URL an, standardmäßig `http://localhost:5173/`.
+
+## Skripte
+
+| Befehl | Zweck |
+| --- | --- |
+| `npm run dev` | Entwicklungsserver starten |
+| `npm run build` | TypeScript prüfen und Produktionsbuild erzeugen |
+| `npm run preview` | Produktionsbuild lokal anzeigen |
+| `npm test` | vollständige Vitest-Suite ausführen |
+| `npm run lint` | ESLint ausführen |
+| `npm run content:generate` | Länderdaten und Länderfragen neu generieren |
+| `npm run content:sounds` | ESC-10-Sounds herunterladen/aufbereiten |
+| `npm run content:sounds:commons` | Wikimedia-Commons-Sounds herunterladen/aufbereiten |
+
+## Qualitätssicherung
+
+Vor einem Push sollten alle Prüfungen erfolgreich sein:
+
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+## Daten und Quellen
+
+- Länder- und Flaggenfragen basieren auf `world-countries`; Flaggen werden über Flagcdn/Wikimedia Commons geladen.
+- Audiodateien enthalten ihre jeweilige Quelle, Urheberangabe und Lizenz im generierten Sound-Manifest.
+- KI-generierte Fragen zeigen das tatsächlich von OpenRouter verwendete Modell in der Quellenangabe an.
+
+Die konkreten Quellenangaben werden bei jeder Frage zusammen mit der Lösung angezeigt.
