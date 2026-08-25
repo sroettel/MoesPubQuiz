@@ -28,9 +28,12 @@ import './App.css'
 import { createQuestionSet, getPoolCounts, prepareDatabase, recordQuestionPlayed } from './data/db'
 import { GAME_DEFINITIONS, type GameDefinition, type GameType, type QuizQuestion } from './domain/questions'
 import { createAiQuestionSet, type AiModelTier } from './services/openRouterQuestions'
+import { SoundAttributions } from './SoundAttributions'
+import privacyNoticeUrl from '../PRIVACY.md?url'
 import thirdPartyNoticesUrl from '../THIRD_PARTY_NOTICES.md?url'
 
-type Screen = 'library' | 'setup' | 'game' | 'results'
+type Screen = 'library' | 'setup' | 'game' | 'results' | 'attributions'
+type QuizScreen = Exclude<Screen, 'attributions'>
 type QuestionSource = 'pool' | 'ai'
 
 const GAME_ICONS: Record<GameType, LucideIcon> = {
@@ -70,6 +73,8 @@ function App() {
   const [aiTopic, setAiTopic] = useState('')
   const [startError, setStartError] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [attributionReturnScreen, setAttributionReturnScreen] = useState<QuizScreen>('library')
+  const [attributionTarget, setAttributionTarget] = useState<string | null>(null)
 
   useEffect(() => {
     const initialize = async () => {
@@ -87,6 +92,11 @@ function App() {
       window.removeEventListener('offline', updateConnection)
     }
   }, [])
+
+  useEffect(() => {
+    if (screen !== 'attributions' || !attributionTarget) return
+    document.getElementById(`credit-${attributionTarget}`)?.scrollIntoView({ block: 'start' })
+  }, [attributionTarget, screen])
 
   const currentQuestion = questions[questionIndex]
   const winnerScore = Math.max(...scores)
@@ -169,6 +179,12 @@ function App() {
 
   const updateScore = (index: number, delta: number) => {
     setScores((current) => current.map((score, teamIndex) => (teamIndex === index ? score + delta : score)))
+  }
+
+  const openAttributions = (target: string | null = null) => {
+    if (screen !== 'attributions') setAttributionReturnScreen(screen)
+    setAttributionTarget(target)
+    setScreen('attributions')
   }
 
   if (isLoading) return <main className="loading-screen">Quizkarten werden gemischt ...</main>
@@ -324,7 +340,19 @@ function App() {
                 <div className="answer-reveal">
                   <span>Antwort</span><strong>{currentQuestion.answer}</strong>
                   {'explanation' in currentQuestion && <p>{currentQuestion.explanation}</p>}
-                  {currentQuestion.source && <small>Quelle: {currentQuestion.source}</small>}
+                  {currentQuestion.attribution ? (
+                    <small className="question-attribution">
+                      <span>{currentQuestion.attribution.title} von {currentQuestion.attribution.creator}</span>
+                      {currentQuestion.attribution.credit && <span>{currentQuestion.attribution.credit}</span>}
+                      <span>
+                        <a href={currentQuestion.attribution.sourceUrl} target="_blank" rel="noreferrer">Quelle</a>
+                        {' · '}
+                        <a href={currentQuestion.attribution.licenseUrl} target="_blank" rel="noreferrer">{currentQuestion.attribution.license}</a>
+                        {currentQuestion.attribution.modifications && ` · ${currentQuestion.attribution.modifications}`}
+                      </span>
+                      <button type="button" onClick={() => openAttributions(currentQuestion.attribution?.creditId ?? currentQuestion.id)}>Vollständiger Credit</button>
+                    </small>
+                  ) : currentQuestion.source && <small>Quelle: {currentQuestion.source}</small>}
                 </div>
               )}
               <div className="stage-actions">
@@ -366,10 +394,19 @@ function App() {
         </section>
       )}
 
+      {screen === 'attributions' && (
+        <SoundAttributions onBack={() => setScreen(attributionReturnScreen)} />
+      )}
+
       <footer className="site-footer">
-        <a href={thirdPartyNoticesUrl} target="_blank" rel="noreferrer">
-          Drittanbieterhinweise <ExternalLink size={14} aria-hidden="true" />
-        </a>
+        <span>Nichtkommerzielles Freizeitprojekt für den privaten Einsatz.</span>
+        <nav aria-label="Rechtliche Hinweise">
+          <button type="button" onClick={() => openAttributions()}>Audio-Credits</button>
+          <a href={privacyNoticeUrl} target="_blank" rel="noreferrer">Datenschutz <ExternalLink size={14} aria-hidden="true" /></a>
+          <a href={thirdPartyNoticesUrl} target="_blank" rel="noreferrer">
+            Drittanbieterhinweise <ExternalLink size={14} aria-hidden="true" />
+          </a>
+        </nav>
       </footer>
     </main>
   )

@@ -31,17 +31,8 @@ export default defineConfig({
       workbox: {
         cleanupOutdatedCaches: true,
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,md,ico,png,svg,ogg,oga,wav,mp3,webm,opus}'],
+        globPatterns: ['**/*.{js,css,html,json,md,ico,png,svg,ogg,oga,wav,mp3,webm,opus}'],
         runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/flagcdn\.com\//,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'quiz-pictures',
-              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 90 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
           {
             urlPattern: /^https:\/\/interactive-examples\.mdn\.mozilla\.net\//,
             handler: 'CacheFirst',

@@ -26,14 +26,23 @@ database is available under the
 
 Contains information from world-countries, which is made available here under
 the Open Database License (ODbL). The derived machine-readable country extract
-in `src/content/data/countries.generated.ts` is offered under ODbL 1.0 to the
-extent that database rights apply.
+is offered under ODbL 1.0 to the extent that database rights apply:
 
-Country flags are loaded from [Flagcdn](https://flagcdn.com/), a service by
-[Flagpedia](https://flagpedia.net/) based on files from
+- [Deployed JSON download](https://sroettel.github.io/MoesPubQuiz/data/countries.generated.json)
+- [Generated source module](https://github.com/sroettel/MoesPubQuiz/blob/main/src/content/data/countries.generated.ts)
+
+The JSON download records its source, license, and transformations. It contains
+independent countries with a capital, German translation, and currency, sorts
+them by German common name, and retains only the fields used by the quiz.
+
+Country flag SVGs were downloaded from [FlagCDN](https://flagcdn.com/), a
+service by [Flagpedia](https://flagpedia.net/) based on files from
 [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_flags_by_country).
-Flags are not covered by the world-countries ODbL. Copyright and other legal
-restrictions for national flags and emblems can vary by jurisdiction.
+They are served locally without modification, so playing the quiz does not send
+visitor requests to FlagCDN. Exact download URLs, checksums, and provenance are
+recorded in `src/content/data/flags.generated.json`. Flags are not covered by
+the world-countries ODbL. Copyright, trademark, and other legal restrictions
+for national flags and emblems can vary by jurisdiction.
 
 ## Audio files
 
@@ -41,7 +50,9 @@ The application includes 100 audio files from Wikimedia Commons and the ESC-10
 subset of ESC-50. Per-file title, creator, source URL, license, credit, checksum,
 and provenance are recorded in
 `src/content/data/sounds.generated.json`. The same title, creator, license, and
-source URL are shown with the answer during a sound round.
+source URL are shown with the answer during a sound round. The in-app
+"Audio-Credits" index additionally displays the complete supplied credit,
+clickable source and license links, and modification status for every file.
 
 Wikimedia Commons files were downloaded without audio editing. They retain the
 license stated on their linked source page. Licenses represented in the local

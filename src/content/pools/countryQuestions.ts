@@ -30,9 +30,9 @@ export const COUNTRY_PICTURE_QUESTIONS: PictureQuestion[] = eligibleCountries.sl
   answer: germanName(country),
   category: 'Flaggen',
   difficulty: country.unMember ? 2 : 3,
-  imageUrl: `https://flagcdn.com/w1280/${country.cca2.toLowerCase()}.png`,
+  imageUrl: `${import.meta.env.BASE_URL}media/images/flags/${country.cca2.toLowerCase()}.svg`,
   imageAlt: `Flagge von ${germanName(country)}`,
-  source: 'Länderdaten: world-countries (ODbL-1.0), Flagge: Flagcdn / Wikimedia Commons',
+  source: 'Länderdaten: world-countries (ODbL-1.0), Flagge: FlagCDN / Flagpedia, lokal bereitgestellt',
 }))
 
 export const COUNTRY_LIE_QUESTIONS: LieDetectorQuestion[] = eligibleCountries.slice(0, 100).map((country, index) => {

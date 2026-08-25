@@ -7,10 +7,11 @@
 .brand-question { position: absolute; display: grid; place-items: center; width: 18px; aspect-ratio: 1; border-radius: 50%; font: 700 13px/1 Georgia, serif; }
 .brand strong, .brand small { display: block; letter-spacing: 0; }.brand strong { font-family: Georgia, serif; font-size: 20px; }.brand small { color: #716b62; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
 .connection { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: var(--teal); }.connection.offline { color: var(--red); }
-.site-footer { margin-top: auto; padding: 0 20px 24px; display: flex; justify-content: center; }
-.site-footer a { display: inline-flex; align-items: center; gap: 6px; color: #c0b8a0; font-size: 12px; text-underline-offset: 3px; }
-.site-footer a:hover { color: var(--brass); }
-.site-footer a:focus-visible { outline: 3px solid var(--brass); outline-offset: 4px; }
+.site-footer { margin-top: auto; padding: 0 20px 24px; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #9f9782; font-size: 12px; text-align: center; }
+.site-footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
+.site-footer a, .site-footer button { border: 0; padding: 0; display: inline-flex; align-items: center; gap: 6px; color: #c0b8a0; background: none; font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.site-footer a:hover, .site-footer button:hover { color: var(--brass); }
+.site-footer a:focus-visible, .site-footer button:focus-visible { outline: 3px solid var(--brass); outline-offset: 4px; }
 .library, .setup, .host, .results { width: min(1220px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0 72px; }
 .library { padding-top: 28px; }
 .kicker, .game-eyebrow { margin: 0 0 8px; color: var(--red); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
@@ -99,6 +100,22 @@ h1, h2, p { letter-spacing: 0; }.setup h1, .results h1 { max-width: 780px; margi
 .statement-list li.is-lie { color: #ffd6d1; background: #5b2e32; outline-color: #f08a7e; }
 .answer-reveal { border-color: rgba(212, 162, 76, .44); background: rgba(212, 162, 76, .1); }
 .answer-reveal > span, .answer-reveal small { color: #c0b8a0; }
+.question-attribution { display: grid; gap: 4px; line-height: 1.45; overflow-wrap: anywhere; }
+.question-attribution a { color: #f4d58f; text-underline-offset: 3px; }
+.question-attribution button { width: fit-content; border: 0; padding: 2px 0; color: #f4d58f; background: none; font: inherit; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.attributions { width: min(980px, calc(100% - 40px)); margin: 0 auto; padding: 42px 0 72px; }
+.attributions-intro { max-width: 720px; margin: 34px 0; }
+.attributions-intro h1 { margin: 0; font: 700 clamp(36px, 5vw, 58px)/1.02 Georgia, 'Times New Roman', serif; }
+.attributions-intro > p:last-child { color: #c0b8a0; line-height: 1.6; }
+.attribution-list { border-top: 1px solid var(--line); }
+.attribution-list article { padding: 22px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 92px; }
+.attribution-list article:target { background: rgba(212, 162, 76, .08); }
+.attribution-list article > div:first-child { display: grid; gap: 4px; }
+.attribution-list article span { color: var(--brass); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }
+.attribution-list article strong { font: 700 19px/1.25 Georgia, serif; }
+.attribution-list article p { margin: 7px 0 0; color: #c0b8a0; font-size: 13px; line-height: 1.55; overflow-wrap: anywhere; }
+.attribution-links { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 16px; }
+.attribution-links a { display: inline-flex; align-items: center; gap: 4px; color: #f4d58f; font-size: 13px; font-weight: 800; text-underline-offset: 3px; }
 .scoreboard-title, .score-row { border-color: var(--line); }
 .score-row > span { color: #f8f8f2; }
 .warning { color: #f4d58f; border-color: rgba(212, 162, 76, .5); background: rgba(212, 162, 76, .11); }

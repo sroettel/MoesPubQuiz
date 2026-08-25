@@ -30,7 +30,19 @@ const output = `export interface CountryFact {
 export const GENERATED_COUNTRIES: CountryFact[] = ${JSON.stringify(distilledCountries, null, 2)}
 `
 
-await mkdir(new URL('../src/content/data/', import.meta.url), { recursive: true })
-await writeFile(new URL('../src/content/data/countries.generated.ts', import.meta.url), output, 'utf8')
+const publicOutput = {
+  name: 'Moe`s PubQuiz derived country database',
+  source: 'https://github.com/mledoze/countries',
+  sourcePackage: 'world-countries 5.1.0',
+  license: 'Open Database License (ODbL) 1.0',
+  licenseUrl: 'https://opendatacommons.org/licenses/odbl/1-0/',
+  transformations: 'Independent countries with a capital, German translation, and currency; sorted by German common name; selected fields only.',
+  countries: distilledCountries,
+}
 
-console.log(`Generated ${distilledCountries.length} compact country records.`)
+await mkdir(new URL('../src/content/data/', import.meta.url), { recursive: true })
+await mkdir(new URL('../public/data/', import.meta.url), { recursive: true })
+await writeFile(new URL('../src/content/data/countries.generated.ts', import.meta.url), output, 'utf8')
+await writeFile(new URL('../public/data/countries.generated.json', import.meta.url), `${JSON.stringify(publicOutput, null, 2)}\n`, 'utf8')
+
+console.log(`Generated ${distilledCountries.length} compact country records and the public ODbL JSON offer.`)

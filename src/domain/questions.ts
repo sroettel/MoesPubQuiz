@@ -16,6 +16,17 @@ export interface GameDefinition {
   onlineOnly?: boolean
 }
 
+export interface QuestionAttribution {
+  creditId?: string
+  title: string
+  creator: string
+  credit?: string
+  sourceUrl: string
+  license: string
+  licenseUrl: string
+  modifications?: string
+}
+
 interface QuestionBase {
   id: string
   prompt: string
@@ -24,6 +35,7 @@ interface QuestionBase {
   category: string
   difficulty: 1 | 2 | 3 | 4 | 5
   source?: string
+  attribution?: QuestionAttribution
 }
 
 export interface PictureQuestion extends QuestionBase {

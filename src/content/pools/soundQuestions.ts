@@ -1,4 +1,5 @@
 import type { SoundQuestion } from '../../domain/questions'
+import { soundLicenseUrl } from '../soundLicenses'
 import soundManifest from '../data/sounds.generated.json'
 
 interface SoundManifestEntry {
@@ -30,4 +31,14 @@ export const SOUND_QUESTIONS: SoundQuestion[] = (soundManifest as SoundManifestE
     endAt: sound.duration || undefined,
   },
   source: `${sound.title} — ${sound.artist} — ${sound.license} — ${sound.sourceUrl}`,
+  attribution: {
+    creditId: sound.id,
+    title: sound.title,
+    creator: sound.artist,
+    credit: sound.credit || undefined,
+    sourceUrl: sound.sourceUrl,
+    license: sound.license,
+    licenseUrl: soundLicenseUrl(sound.license, sound.sourceUrl),
+    modifications: 'Originaldatei ohne weitere Bearbeitung verwendet.',
+  },
 }))

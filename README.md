@@ -38,8 +38,7 @@ Der aktuelle Picture-Pool enthält nur Länderflaggen. Ein Schwerpunkt wie "Poli
 
 Die App ist als Progressive Web App konfiguriert und kann auf unterstützten Geräten installiert werden.
 
-- App-Bundle, Hintergrundbild und lokale Audiodateien werden vorab gecacht.
-- Flaggen von Flagcdn werden nach dem ersten Laden im Runtime-Cache gespeichert.
+- App-Bundle, Hintergrundbild, Flaggen und lokale Audiodateien werden vorab gecacht.
 - Standardpool, Spielhistorie und Auswahlstatistik liegen lokal in IndexedDB via Dexie.
 - KI live benötigt weiterhin eine Internetverbindung.
 
@@ -83,6 +82,7 @@ Quelle ausgewählt werden.
 | `npm test` | vollständige Vitest-Suite ausführen |
 | `npm run lint` | ESLint ausführen |
 | `npm run content:generate` | Länderdaten und Länderfragen neu generieren |
+| `npm run content:flags` | Flaggen lokal herunterladen und Provenienzmanifest erzeugen |
 | `npm run content:sounds` | ESC-10-Sounds herunterladen/aufbereiten |
 | `npm run content:sounds:commons` | Wikimedia-Commons-Sounds herunterladen/aufbereiten |
 
@@ -98,10 +98,13 @@ npm run build
 
 ## Daten und Quellen
 
-- Länder- und Flaggenfragen basieren auf `world-countries`; Flaggen werden über Flagcdn/Wikimedia Commons geladen.
+- Länderfragen basieren auf `world-countries`; der abgeleitete Datensatz ist als ODbL-JSON direkt verfügbar.
+- Flaggen stammen von FlagCDN/Flagpedia auf Basis von Wikimedia Commons und werden mit Prüfsumme und Provenienz lokal bereitgestellt.
 - Audiodateien enthalten ihre jeweilige Quelle, Urheberangabe und Lizenz im generierten Sound-Manifest.
 - KI-generierte Fragen zeigen das tatsächlich von OpenRouter verwendete Modell in der Quellenangabe an.
 - Das maritime Hintergrundbild wurde vom Projekteigner mit GitHub Copilot erstellt und nicht aus einer externen Bildquelle übernommen.
 
 Die konkreten Quellenangaben werden bei jeder Frage zusammen mit der Lösung angezeigt.
 Vollständige Lizenz- und Urheberhinweise stehen in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Die technischen Datenschutzhinweise stehen in [PRIVACY.md](PRIVACY.md).
+Der datierte technische Prüfstand steht in [COMPLIANCE_RECORD.md](COMPLIANCE_RECORD.md).
