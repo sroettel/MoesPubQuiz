@@ -43,13 +43,24 @@ h1, h2, p { letter-spacing: 0; }.setup h1, .results h1 { max-width: 780px; margi
 
 /* Maritime theme: deep water, painted timber and lantern light. */
 .app-shell {
+	position: relative;
+	isolation: isolate;
+	background: var(--paper-deep);
+}
+.app-shell::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	width: 100vw;
+	height: 100vh;
+	height: 100lvh;
 	background-image:
 		linear-gradient(rgba(5, 17, 29, .5), rgba(5, 17, 29, .68)),
 		var(--quiz-background-image);
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-attachment: fixed;
 }
 .topbar { background: rgba(11, 28, 44, .84); box-shadow: 0 8px 24px rgba(0, 0, 0, .2); backdrop-filter: blur(8px); }
 .brand-mark { color: var(--brass); filter: drop-shadow(0 0 7px rgba(212, 162, 76, .22)); }
