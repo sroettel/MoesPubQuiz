@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/MoesPubQuiz/',
   plugins: [
     react(),
     VitePWA({
@@ -30,7 +31,7 @@ export default defineConfig({
       workbox: {
         cleanupOutdatedCaches: true,
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,ogg,oga,wav,mp3,webm,opus}'],
+        globPatterns: ['**/*.{js,css,html,md,ico,png,svg,ogg,oga,wav,mp3,webm,opus}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/flagcdn\.com\//,

@@ -1,4 +1,4 @@
-.app-shell { min-height: 100vh; background-color: var(--paper-deep); background-image: linear-gradient(rgba(60,55,45,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(60,55,45,.04) 1px, transparent 1px); background-size: 24px 24px; }
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; background-color: var(--paper-deep); background-image: linear-gradient(rgba(60,55,45,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(60,55,45,.04) 1px, transparent 1px); background-size: 24px 24px; }
 .topbar { height: 76px; padding: 0 clamp(20px, 5vw, 72px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: rgba(251,250,246,.94); }
 .brand { border: 0; background: none; display: flex; align-items: center; gap: 11px; cursor: pointer; padding: 4px; text-align: left; }
 .brand-mark { position: relative; display: grid; place-items: center; width: 44px; aspect-ratio: 1; }
@@ -7,6 +7,10 @@
 .brand-question { position: absolute; display: grid; place-items: center; width: 18px; aspect-ratio: 1; border-radius: 50%; font: 700 13px/1 Georgia, serif; }
 .brand strong, .brand small { display: block; letter-spacing: 0; }.brand strong { font-family: Georgia, serif; font-size: 20px; }.brand small { color: #716b62; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
 .connection { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: var(--teal); }.connection.offline { color: var(--red); }
+.site-footer { margin-top: auto; padding: 0 20px 24px; display: flex; justify-content: center; }
+.site-footer a { display: inline-flex; align-items: center; gap: 6px; color: #c0b8a0; font-size: 12px; text-underline-offset: 3px; }
+.site-footer a:hover { color: var(--brass); }
+.site-footer a:focus-visible { outline: 3px solid var(--brass); outline-offset: 4px; }
 .library, .setup, .host, .results { width: min(1220px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0 72px; }
 .library { padding-top: 28px; }
 .kicker, .game-eyebrow { margin: 0 0 8px; color: var(--red); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
@@ -41,7 +45,7 @@ h1, h2, p { letter-spacing: 0; }.setup h1, .results h1 { max-width: 780px; margi
 .app-shell {
 	background-image:
 		linear-gradient(rgba(5, 17, 29, .5), rgba(5, 17, 29, .68)),
-		url('/images/quiz-night.png');
+		var(--quiz-background-image);
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;

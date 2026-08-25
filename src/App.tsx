@@ -7,6 +7,7 @@ import {
   Compass,
   Database,
   Eye,
+  ExternalLink,
   Flag,
   Lightbulb,
   LoaderCircle,
@@ -27,6 +28,7 @@ import './App.css'
 import { createQuestionSet, getPoolCounts, prepareDatabase, recordQuestionPlayed } from './data/db'
 import { GAME_DEFINITIONS, type GameDefinition, type GameType, type QuizQuestion } from './domain/questions'
 import { createAiQuestionSet, type AiModelTier } from './services/openRouterQuestions'
+import thirdPartyNoticesUrl from '../THIRD_PARTY_NOTICES.md?url'
 
 type Screen = 'library' | 'setup' | 'game' | 'results'
 type QuestionSource = 'pool' | 'ai'
@@ -172,7 +174,10 @@ function App() {
   if (isLoading) return <main className="loading-screen">Quizkarten werden gemischt ...</main>
 
   return (
-    <main className="app-shell">
+    <main
+      className="app-shell"
+      style={{ '--quiz-background-image': `url("${import.meta.env.BASE_URL}images/quiz-night.png")` } as CSSProperties}
+    >
       <header className="topbar">
         <button className="brand" type="button" onClick={() => setScreen('library')}>
           <span className="brand-mark" aria-hidden="true">
@@ -360,6 +365,12 @@ function App() {
           </div>
         </section>
       )}
+
+      <footer className="site-footer">
+        <a href={thirdPartyNoticesUrl} target="_blank" rel="noreferrer">
+          Drittanbieterhinweise <ExternalLink size={14} aria-hidden="true" />
+        </a>
+      </footer>
     </main>
   )
 }

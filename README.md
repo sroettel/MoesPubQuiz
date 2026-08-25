@@ -2,6 +2,8 @@
 
 Moe`s PubQuiz ist ein deutschsprachiger, für iPad und Desktop optimierter PubQuiz-Spielleiter. Die App kombiniert einen lokalen Fragenpool mit optional live über OpenRouter generierten Fragen, Teamwertung und einem installierbaren Offline-Modus.
 
+Die veröffentlichte App ist unter <https://sroettel.github.io/MoesPubQuiz/> erreichbar.
+
 ## Spielarten
 
 | Spielart | Inhalt |
@@ -64,6 +66,13 @@ npm run dev
 
 Vite zeigt anschließend die lokale URL an, standardmäßig `http://localhost:5173/`.
 
+## GitHub Pages
+
+Pushes auf `main` werden über `.github/workflows/deploy-pages.yml` geprüft,
+gebaut und auf GitHub Pages veröffentlicht. Im Repository muss unter
+**Settings > Pages > Build and deployment** einmalig **GitHub Actions** als
+Quelle ausgewählt werden.
+
 ## Skripte
 
 | Befehl | Zweck |
@@ -92,5 +101,7 @@ npm run build
 - Länder- und Flaggenfragen basieren auf `world-countries`; Flaggen werden über Flagcdn/Wikimedia Commons geladen.
 - Audiodateien enthalten ihre jeweilige Quelle, Urheberangabe und Lizenz im generierten Sound-Manifest.
 - KI-generierte Fragen zeigen das tatsächlich von OpenRouter verwendete Modell in der Quellenangabe an.
+- Das maritime Hintergrundbild wurde vom Projekteigner mit GitHub Copilot erstellt und nicht aus einer externen Bildquelle übernommen.
 
 Die konkreten Quellenangaben werden bei jeder Frage zusammen mit der Lösung angezeigt.
+Vollständige Lizenz- und Urheberhinweise stehen in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

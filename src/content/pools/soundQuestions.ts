@@ -26,7 +26,7 @@ export const SOUND_QUESTIONS: SoundQuestion[] = (soundManifest as SoundManifestE
   difficulty: (1 + (index % 3)) as 1 | 2 | 3,
   media: {
     kind: 'audio',
-    url: sound.file,
+    url: `${import.meta.env.BASE_URL}${sound.file.replace(/^\//, '')}`,
     endAt: sound.duration || undefined,
   },
   source: `${sound.title} — ${sound.artist} — ${sound.license} — ${sound.sourceUrl}`,
