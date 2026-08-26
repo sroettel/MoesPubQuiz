@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { GameType, PictureQuestion, SoundQuestion } from '../domain/questions'
-import { createAiQuestionSet, OPENROUTER_FALLBACK_MODEL, OPENROUTER_MODEL, OPENROUTER_PAID_MODEL } from './openRouterQuestions'
+import { createAiQuestionSet, OPENROUTER_MODEL, OPENROUTER_PAID_MODEL } from './openRouterQuestions'
 
 function mockResponse(content: unknown, ok = true) {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
@@ -16,24 +16,25 @@ function mockResponse(content: unknown, ok = true) {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('OpenRouter question generation', () => {
-  it('uses GLM 5.2 with the free model router as fallback', () => {
-    expect(OPENROUTER_MODEL).toBe('z-ai/glm-5.2:free')
-    expect(OPENROUTER_FALLBACK_MODEL).toBe('openrouter/free')
+  it('uses the free model router directly', () => {
+    expect(OPENROUTER_MODEL).toBe('openrouter/free')
   })
 
-  it('sends the free models as an ordered fallback chain', async () => {
+  it('sends the free router as the selected model', async () => {
     mockResponse({ questions: [{ prompt: 'Welche Stadt ist die Hauptstadt von Frankreich?', answer: 'Paris', category: 'Geografie', difficulty: 1, theme: 'Europa' }] })
 
     await createAiQuestionSet({ type: 'themed', count: 1, apiKey: 'secret', topic: '', assets: [] })
 
     const request = vi.mocked(fetch).mock.calls[0][1]
     const body = JSON.parse(String(request?.body)) as {
-      models: string[]
+      model: string
+      models?: string[]
       max_tokens: number
       reasoning: { effort: string; exclude: boolean }
       response_format: { type: string }
     }
-    expect(body.models).toEqual([OPENROUTER_MODEL, OPENROUTER_FALLBACK_MODEL])
+    expect(body.model).toBe(OPENROUTER_MODEL)
+    expect(body.models).toBeUndefined()
     expect(body.max_tokens).toBe(8000)
     expect(body.reasoning).toEqual({ effort: 'high', exclude: true })
     expect(body.response_format).toEqual({ type: 'json_object' })
@@ -181,22 +182,22 @@ describe('OpenRouter question generation', () => {
       .rejects.toThrow('Der kostenlose KI-Anbieter ist momentan überlastet. Bitte gleich erneut versuchen.')
   })
 
-  it('attributes questions to the fallback model that served the response', async () => {
+  it('attributes questions to the free router that served the response', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
       headers: { get: () => null },
       json: async () => ({
-        model: OPENROUTER_FALLBACK_MODEL,
+        model: OPENROUTER_MODEL,
         choices: [{ message: { content: JSON.stringify({ questions: [{ prompt: 'Welche Stadt ist die Hauptstadt von Frankreich?', answer: 'Paris', category: 'Geografie', difficulty: 1, theme: 'Europa' }] }) } }],
       }),
     }))
 
     const [question] = await createAiQuestionSet({ type: 'themed', count: 1, apiKey: 'secret', topic: '', assets: [] })
-    expect(question.source).toBe(`KI-generiert mit OpenRouter / ${OPENROUTER_FALLBACK_MODEL}`)
+    expect(question.source).toBe(`KI-generiert mit OpenRouter / ${OPENROUTER_MODEL}`)
   })
 
-  it('retries the free router explicitly when the model chain returns no content', async () => {
+  it('retries the free router when the first request returns no content', async () => {
     vi.stubGlobal('fetch', vi.fn()
       .mockResolvedValueOnce({
         ok: true,
@@ -209,7 +210,7 @@ describe('OpenRouter question generation', () => {
         status: 200,
         headers: { get: () => null },
         json: async () => ({
-          model: OPENROUTER_FALLBACK_MODEL,
+          model: OPENROUTER_MODEL,
           choices: [{ message: { content: JSON.stringify({ questions: [{ prompt: 'Welche Stadt ist die Hauptstadt von Frankreich?', answer: 'Paris', category: 'Geografie', difficulty: 1, theme: 'Europa' }] }) } }],
         }),
       }))
@@ -218,8 +219,8 @@ describe('OpenRouter question generation', () => {
 
     expect(fetch).toHaveBeenCalledTimes(2)
     const retryBody = JSON.parse(String(vi.mocked(fetch).mock.calls[1][1]?.body)) as { model: string }
-    expect(retryBody.model).toBe(OPENROUTER_FALLBACK_MODEL)
-    expect(question.source).toBe(`KI-generiert mit OpenRouter / ${OPENROUTER_FALLBACK_MODEL}`)
+    expect(retryBody.model).toBe(OPENROUTER_MODEL)
+    expect(question.source).toBe(`KI-generiert mit OpenRouter / ${OPENROUTER_MODEL}`)
   })
 
   it('explains when every provider exhausts its output budget', async () => {
@@ -248,7 +249,7 @@ describe('OpenRouter question generation', () => {
         status: 200,
         headers: { get: () => null },
         json: async () => ({
-          model: OPENROUTER_FALLBACK_MODEL,
+          model: OPENROUTER_MODEL,
           choices: [{ message: { content: JSON.stringify({ questions: [{ prompt: 'Welche Stadt ist die Hauptstadt von Frankreich?', answer: 'Paris', category: 'Geografie', difficulty: 1, theme: 'Europa' }] }) } }],
         }),
       }))
@@ -279,7 +280,7 @@ describe('OpenRouter question generation', () => {
         ok: true,
         status: 200,
         headers: { get: () => null },
-        json: async () => ({ model: OPENROUTER_FALLBACK_MODEL, choices: [{ message: { content: JSON.stringify({ questions: uniqueQuestions }) } }] }),
+        json: async () => ({ model: OPENROUTER_MODEL, choices: [{ message: { content: JSON.stringify({ questions: uniqueQuestions }) } }] }),
       }))
 
     const questions = await createAiQuestionSet({ type: 'themed', count: 2, apiKey: 'secret', topic: '', assets: [] })

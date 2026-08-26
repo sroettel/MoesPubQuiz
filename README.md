@@ -21,7 +21,7 @@ Der lokale Startpool enthält 600 Aufgaben, jeweils 100 pro Spielart. Gespielte 
 
 Im Setup jeder Spielart kann zwischen dem lokalen Standardpool und **KI live** gewählt werden. Die App unterstützt zwei Modellmodi:
 
-- **Kostenlos:** `z-ai/glm-5.2:free` mit `openrouter/free` als Fallback
+- **Kostenlos:** `openrouter/free`
 - **Bezahlt:** `openai/gpt-5.4-mini`
 
 Für KI live wird ein eigener OpenRouter API-Key im Setup eingegeben. Der Key bleibt nur im aktuellen React-Zustand des Browsers und wird weder in IndexedDB noch im Repository gespeichert.

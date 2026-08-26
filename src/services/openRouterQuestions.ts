@@ -1,8 +1,7 @@
 import { z } from 'zod'
 import type { GameType, PictureQuestion, QuizQuestion, SoundQuestion } from '../domain/questions'
 
-export const OPENROUTER_MODEL = 'z-ai/glm-5.2:free'
-export const OPENROUTER_FALLBACK_MODEL = 'openrouter/free'
+export const OPENROUTER_MODEL = 'openrouter/free'
 export const OPENROUTER_PAID_MODEL = 'openai/gpt-5.4-mini'
 
 export type AiModelTier = 'free' | 'paid'
@@ -220,9 +219,9 @@ export async function createAiQuestionSet(options: {
   const modelSelections = modelTier === 'paid'
     ? [{ model: OPENROUTER_PAID_MODEL }]
     : [
-        { models: [OPENROUTER_MODEL, OPENROUTER_FALLBACK_MODEL] },
-        { model: OPENROUTER_FALLBACK_MODEL },
-        { model: OPENROUTER_FALLBACK_MODEL },
+        { model: OPENROUTER_MODEL },
+        { model: OPENROUTER_MODEL },
+        { model: OPENROUTER_MODEL },
       ]
   let generationError: unknown
 

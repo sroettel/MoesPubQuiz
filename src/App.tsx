@@ -262,7 +262,7 @@ function App() {
                       <span>KI-Modell</span>
                       <div className="model-tier-switch" role="radiogroup" aria-label="KI-Modell">
                         <button className={aiModelTier === 'free' ? 'active' : ''} type="button" role="radio" aria-checked={aiModelTier === 'free'} onClick={() => { setAiModelTier('free'); setStartError('') }}>
-                          <strong>Kostenlos</strong><small>GLM mit Free-Fallback</small>
+                          <strong>Kostenlos</strong><small>OpenRouter Free</small>
                         </button>
                         <button className={aiModelTier === 'paid' ? 'active' : ''} type="button" role="radio" aria-checked={aiModelTier === 'paid'} onClick={() => { setAiModelTier('paid'); setStartError('') }}>
                           <strong>Bezahlt</strong><small>GPT-5.4 Mini</small>
